@@ -1,1 +1,26 @@
+name: Deploy Observability
 
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Configure AWS
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-region: ap-south-1
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+
+      - name: Deploy CFN
+        run: |
+          aws cloudformation deploy \
+            --template-file cfn/grafana.yaml \
+            --stack-name observability-stack \
+            --capabilities CAPABILITY_NAMED_IAM
