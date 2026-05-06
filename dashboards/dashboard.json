@@ -1,1 +1,15 @@
-
+{
+  "title": "My Observability Dashboard",
+  "panels": [
+    {
+      "type": "graph",
+      "title": "Request Count",
+      "targets": [
+        {
+          "namespace": "MyApp",
+          "metricName": "RequestCount"
+        }
+      ]
+    }
+  ]
+}
