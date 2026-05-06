@@ -1,1 +1,11 @@
-
+{
+  "alert": {
+    "name": "Low Request Alert",
+    "condition": "A < 10",
+    "notifications": [
+      {
+        "type": "sns"
+      }
+    ]
+  }
+}
