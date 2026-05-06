@@ -1,1 +1,39 @@
+AWSTemplateFormatVersion: '2010-09-09'
 
+Resources:
+
+  GrafanaWorkspace:
+    Type: AWS::Grafana::Workspace
+    Properties:
+      AccountAccessType: CURRENT_ACCOUNT
+      AuthenticationProviders:
+        - AWS_SSO
+      PermissionType: SERVICE_MANAGED
+      DataSources:
+        - CLOUDWATCH
+      Name: observability-grafana
+
+  SNSTopic:
+    Type: AWS::SNS::Topic
+
+  Dashboard:
+    Type: AWS::CloudWatch::Dashboard
+    Properties:
+      DashboardName: observability-dashboard
+      DashboardBody: |
+        {
+          "widgets": [
+            {
+              "type": "metric",
+              "properties": {
+                "metrics": [
+                  [ "MyApp", "RequestCount" ]
+                ],
+                "stat": "Sum",
+                "period": 300,
+                "region": "ap-south-1",
+                "title": "Request Count"
+              }
+            }
+          ]
+        }
