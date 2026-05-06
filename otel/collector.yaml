@@ -1,1 +1,14 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
 
+exporters:
+  awscloudwatch:
+    region: ap-south-1
+
+service:
+  pipelines:
+    metrics:
+      receivers: [otlp]
+      exporters: [awscloudwatch]
